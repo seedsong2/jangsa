@@ -1274,21 +1274,28 @@ const CHOOSE = {
     const F = G.flags;
     switch (d.kind) {
       case 'holiday':
-        if (c === 0) { F.closedNext = (F.closedNext || 0) + 3; spend(G, 40 * MAN); stressAdd(G, -3); return '사흘간 가게를 닫고 처가에 다녀오기로 했습니다. 선물과 용돈으로 40만원을 썼습니다.'; }
-        stressAdd(G, 10); return '"대목이라 어쩔 수 없어." 아내는 대답하지 않았습니다.';
+        if (c === 0) { F.closedNext = (F.closedNext || 0) + 3; spend(G, 40 * MAN); stressAdd(G, -3); riftAdd(G, -2); return '사흘간 가게를 닫고 처가에 다녀오기로 했습니다. 선물과 용돈으로 40만원을 썼습니다.'; }
+        stressAdd(G, 10); riftAdd(G, 2); return '"대목이라 어쩔 수 없어." 아내는 대답하지 않았습니다.';
       case 'quit':
-        if (c === 0) { stressAdd(G, 12); return '"1년만 더." 그렇게 답했지만 스스로도 확신이 없습니다.'; }
-        G.ops.listing = true; stressAdd(G, -6); return '부동산에 가게를 내놓았습니다. 인수하겠다는 사람이 나타나면 결정할 수 있습니다.';
+        if (c === 0) { stressAdd(G, 12); riftAdd(G, 3); return '"1년만 더." 그렇게 답했지만 스스로도 확신이 없습니다.'; }
+        G.ops.listing = true; stressAdd(G, -6); riftAdd(G, -2); return '부동산에 가게를 내놓았습니다. 인수하겠다는 사람이 나타나면 결정할 수 있습니다.';
       case 'help':
         if (c === 0) { F.famHelp = G.month + 3; stressAdd(G, 4); return '아내가 앞치마를 둘렀습니다. 석 달간 홀 일손이 늘어납니다.'; }
         return '"괜찮아, 내가 할게." 말은 그렇게 했습니다.';
       case 'occasion':
         if (d.cost) spend(G, d.cost);
-        if (c === 0) { F.closedNext = (F.closedNext || 0) + 1; stressAdd(G, -2); return '가게를 하루 닫고 다녀오기로 했습니다.'; }
-        stressAdd(G, 8); return d.cost ? '봉투만 보냈습니다. 아내는 며칠째 말이 없습니다.' : '끝내 가지 못했습니다. 아이는 며칠째 말을 걸지 않습니다.';
+        if (c === 0) { F.closedNext = (F.closedNext || 0) + 1; stressAdd(G, -2); riftAdd(G, -1); return '가게를 하루 닫고 다녀오기로 했습니다.'; }
+        stressAdd(G, 8); riftAdd(G, 2); return d.cost ? '봉투만 보냈습니다. 아내는 며칠째 말이 없습니다.' : '끝내 가지 못했습니다. 아이는 며칠째 말을 걸지 않습니다.';
       case 'time':
-        if (c === 0) { F.closedNext = (F.closedNext || 0) + 1; stressAdd(G, -4); G.stamina = Math.min(100, G.stamina + 3); return '가게를 하루 닫고 가족과 놀이공원에 가기로 했습니다.'; }
-        stressAdd(G, 8); return '답장을 못 한 채 하루가 갔습니다.';
+        if (c === 0) { F.closedNext = (F.closedNext || 0) + 1; stressAdd(G, -4); riftAdd(G, -2); G.stamina = Math.min(100, G.stamina + 3); return '가게를 하루 닫고 가족과 놀이공원에 가기로 했습니다.'; }
+        stressAdd(G, 8); riftAdd(G, 1); return '답장을 못 한 채 하루가 갔습니다.';
+      case 'sep':
+        if (c === 0) {
+          F.closedNext = (F.closedNext || 0) + 7;
+          if (chance(G, .6)) { F.famSep = 0; riftAdd(G, -5); stressAdd(G, -6); return '가게를 일주일 닫고 처가에 찾아갔습니다. 사흘째 되던 날 아내가 짐을 쌌습니다. "한 번만 더 믿어 볼게."'; }
+          riftAdd(G, -2); return '가게를 일주일 닫고 처가에 찾아갔지만 아내는 문을 열어 주지 않았습니다. "아직은 시간이 필요해."';
+        }
+        riftAdd(G, 1); stressAdd(G, 12); return '가게 문을 열었습니다. 밤에 돌아온 집은 불이 꺼져 있습니다.';
     }
     return '';
   },
@@ -1339,6 +1346,8 @@ const CHOOSE = {
    가게 사정은 집으로 번진다. 다툼은 스트레스(G.flags.stress)로 쌓여 몇 달에 걸쳐 체력을 깎는다.
    대부분 가게 상태(적자, 무휴 영업, 몰래 낸 빚)가 원인이다. 한 달에 하나, 한번 터지면 두 달은 조용하다. */
 function stressAdd(G, n) { G.flags.stress = Math.max(0, (G.flags.stress || 0) + n); }
+function riftAdd(G, n) { G.flags.famRift = Math.max(0, (G.flags.famRift || 0) + n); }   // 부부 사이의 골. 외면할수록 깊어진다
+const RIFT_SEP = 11;   // 이만큼 쌓이면 별거가 시작될 수 있다
 const FAM_MONEY = [
   '"이번 달도 마이너스야?" 통장을 확인한 아내와 새벽까지 다퉜습니다.',
   '"애 학원비는 어떡할 건데." 아내가 가계부를 식탁에 내려놓았습니다.',
@@ -1365,15 +1374,31 @@ function familyTurn(G, R) {
   const ask = (kind, tone, title, text, choices, def, data) => { G.pending.push({ id: 'fam', tone, title, text, choices, data: Object.assign({ kind }, data), def }); F.famNext = m + 2; };
   const run = (k, f) => n >= k && h.slice(-k).every(f);
 
-  if (F.famHelp && m === F.famHelp + 1) { F.famHelp = 0; return say('bad', '아내의 손목', '석 달을 월급 없이 일한 아내가 손목 보호대를 찼습니다. "나도 이제 못 하겠어."', 8); }
+  if (F.famHelp && m === F.famHelp + 1) { F.famHelp = 0; riftAdd(G, 1); return say('bad', '아내의 손목', '석 달을 월급 없이 일한 아내가 손목 보호대를 찼습니다. "나도 이제 못 하겠어."', 8); }
   // 몰래 낸 빚은 바로 들킨다. 부모님 돈은 처음 한 번, 그 밖에는 반년에 한 번만 크게 터진다
   const famLoan = newDebt && hard[hard.length - 1].type === 'family';
   if (newDebt && (famLoan ? !F.famParent : (F.famDebtAt || -99) + 6 <= m)) {
-    F.famDebtAt = m; if (famLoan) F.famParent = 1;
+    F.famDebtAt = m; if (famLoan) F.famParent = 1; riftAdd(G, famLoan ? 3 : 2);
     return famLoan
       ? say('bad', '들켜 버린 빚', '"어머님 노후자금까지 끌어다 썼어? 나한테 한마디도 없이?" 그날 밤 아내는 방문을 잠갔습니다.', 15, 3)
       : say('bad', '들켜 버린 빚', '"2금융권 대출? 이자가 몇 프로인지 알기나 해?" 독촉 문자를 본 아내와 크게 다퉜습니다.', 12, 3);
   }
+  if (F.famDiv) return;   // 이혼한 뒤에는 집안 사건이 없다
+  riftAdd(G, G.ops.dayOff ? -.25 : -.08);   // 시간이 지나면 조금씩 메워진다. 쉬는 날이 있으면 더 빨리
+  const sepAsk = first => ask('sep', 'bad', first ? '별거' : '빈집', first ? '퇴근해 보니 옷장이 비어 있습니다. 식탁에 쪽지가 있습니다. "애 데리고 엄마 집에 가 있을게. 당신은 가게랑 살아."' : '아내와 아이가 떠난 지 ' + (m - F.famSep) + '개월째입니다. 아이가 전화로 "아빠 언제 와?" 하고 물었습니다.',
+    [{ t: '가게를 닫고 찾아간다', d: '다음 달 7일 휴업. 60% 확률로 돌아옵니다.' }, { t: '장사를 계속한다', d: '휴업은 없지만 이혼에 가까워집니다.' }], 0);
+  if (F.famSep) {   // 별거 중에는 다른 집안 사건이 없고, 달라지지 않으면 이혼으로 간다
+    const sm = m - F.famSep; stressAdd(G, 3);
+    if (sm >= 5 && (F.famRift || 0) >= RIFT_SEP - 2 && chance(G, .15)) {
+      F.famDiv = m; F.famSep = 0;
+      const c = spend(G, clamp(Math.max(0, G.cash) * .4, 500 * MAN, 3000 * MAN)); addSub(G, '양육비', 80 * MAN, TUNE.months - m); stressAdd(G, 20);
+      R.events.push(ev('bad', '협의이혼', `별거 ${sm}개월 만에 법원에서 서류에 도장을 찍었습니다. 재산분할로 ${won(c)}을 건넸고 양육비로 매달 80만원을 보냅니다.`));
+      return;
+    }
+    if (sm >= 2 && (F.famSepAsk || 0) + 3 <= m && chance(G, .4)) { F.famSepAsk = m; sepAsk(false); }
+    return;
+  }
+  if (m >= 12 && (F.famRift || 0) >= RIFT_SEP && chance(G, .15)) { F.famSep = m; F.famSepAsk = m; return sepAsk(true); }
   if ((F.famNext || 0) > m) return;
   if ((cal === 1 || cal === 8) && chance(G, .5)) {   // 설·추석 한 달 전
     const nm = cal === 1 ? '설' : '추석';
@@ -1385,7 +1410,7 @@ function familyTurn(G, R) {
     return ask('quit', 'bad', '"이제 그만하자"', '"반년째 적자잖아. 당신 몸도 상하고 빚만 늘어. 더 늦기 전에 접자." 아내가 진지하게 말을 꺼냈습니다.',
       [{ t: '1년만 더 해 보겠다고 한다', d: '가게는 그대로. 집안 공기가 무거워집니다.' }, { t: '가게를 내놓겠다고 약속한다', d: '부동산에 매물로 올립니다. 마음은 조금 가벼워집니다.' }], 0);
   }
-  if (run(3, x => x.net < 0) && chance(G, .3)) return say('bad', '아내의 한숨', pick(G, FAM_MONEY), 10, 4);
+  if (run(3, x => x.net < 0) && chance(G, .3)) { riftAdd(G, .5); return say('bad', '아내의 한숨', pick(G, FAM_MONEY), 10, 4); }
   if (m >= 3 && !F.famHelp && (F.famHelpAsk || 0) + 8 <= m && G.last && (G.last.peak > 1.05 || G.staff.length === 0) && chance(G, .12)) {
     F.famHelpAsk = m;
     return ask('help', 'neutral', '아내의 제안', '"사람 구할 때까지만이야." 아내가 점심·저녁 장사를 돕겠다고 합니다.',
@@ -1402,7 +1427,7 @@ function familyTurn(G, R) {
       [{ t: '이번 주말 하루 쉰다', d: '다음 달 하루 휴업. 가족과 시간을 보냅니다.' }, { t: '답장을 미룬다', d: '장사는 하지만 서운함이 쌓입니다.' }], 1);
   }
   if (run(3, x => x.net > 0) && (F.famGood || 0) + 6 <= m && chance(G, .25)) {
-    F.famGood = m; stressAdd(G, -8); G.stamina = Math.min(100, G.stamina + 6);
+    F.famGood = m; stressAdd(G, -8); riftAdd(G, -2); G.stamina = Math.min(100, G.stamina + 6);
     return say('good', '아내의 한마디', '"고생했어." 석 달 연속 흑자 소식에 아내가 삼겹살을 구웠습니다. 오랜만에 푹 잤습니다.', 0, 1);
   }
   if (chance(G, .05)) { const x = pick(G, FAM_NAG); return say('bad', '집에서 온 한마디', x[0], x[1]); }
@@ -4975,6 +5000,7 @@ function compare(G) {
     ['떠난 단골', cnt(/단골이 떠났습니다/), '명'],
     ['고장·파손', cnt(/고장|파손|역류|동파|정전|누수/), '번']
   ];
+  if ((G.flags || {}).famDiv) marks.push(['가정', '이혼', '']); else if ((G.flags || {}).famSep) marks.push(['가정', '별거 중', '']);
   return { m, score, seed, worked, living, kept, bank, minPay, hourly: worked > 0 ? kept / worked : 0, marks };
 }
 
@@ -5035,7 +5061,7 @@ UI.views.end = {
         ${worked > 0 ? cmpRow('예금에 넣고 최저임금으로 일했을 때보다', '', C.kept - C.bank - C.minPay, 'total') : ''}
       </div></section>`;
     const marks = `<section class="stack tight"><h3>겪은 일</h3><div class="tiles">` +
-      C.marks.map(t => `<div class="tile"><div class="k">${t[0]}</div><div class="v ${t[0] === '응급실' && t[1] > 0 ? 'neg' : ''}">${UI.int(t[1])}${t[2]}</div></div>`).join('') + `</div></section>`;
+      C.marks.map(t => `<div class="tile"><div class="k">${t[0]}</div><div class="v ${t[0] === '응급실' && t[1] > 0 ? 'neg' : ''}">${typeof t[1] === 'number' ? UI.int(t[1]) : t[1]}${t[2]}</div></div>`).join('') + `</div></section>`;
 
     // 매출 1만원이 간 곳
     let flow;
@@ -6145,7 +6171,7 @@ A.rnHelp = (a, el, ev) => { if (UI.actions.mtHelp) return UI.actions.mtHelp(a, e
 /* ───────── 시간 진행 ───────── */
 const TONE_ICON = { good: '✅', bad: '⚠️', neutral: 'ℹ️' };
 /* 가게를 멈춰 세울 만한 일만 창으로 띄운다. 나머지는 '오늘' 카드의 소식으로 지나간다 */
-const BIG = /파산|쓰러짐|과로|건강 악화|식중독|영업정지|대유행|전면 해제|긴급 대출|손을 벌림|퇴사|신규 개업|재계약|잔고 부족|떠났습니다|들켜/;
+const BIG = /이혼|파산|쓰러짐|과로|건강 악화|식중독|영업정지|대유행|전면 해제|긴급 대출|손을 벌림|퇴사|신규 개업|재계약|잔고 부족|떠났습니다|들켜/;
 const isBig = e => !!e.big || BIG.test(e.title);
 const whoOf = x => (x && x.who && UI.whoHTML ? (UI.whoHTML(UI.G, x.who) || '') : '');
 function eventsBody(events) {
