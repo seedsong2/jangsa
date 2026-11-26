@@ -4866,7 +4866,7 @@ UI.views.title = {
       <button class="btn sm" data-act="mtHelp">규칙 자세히</button>
     </section>
   </div>
-  <section class="card mt-lbcard">${UI.leaderboardHTML({ limit: 20 })}</section>
+  ${window.LB && window.LB.local ? `<section class="card mt-lbcard">${UI.leaderboardHTML({ limit: 20 })}</section>` : ''}
 </div>`;
   }
 };
