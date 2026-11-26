@@ -697,35 +697,35 @@ const ELAST = { office: 2.0, student: 3.0, resident: 2.6, transit: 2.3 };
 const PRES = { full: [.6, 1, 1, .9, .3], part: [0, 1, .2, .7, 0] };  // 시간대별 근무 비중
 
 const HOURS = {
-  late: { name: '10시~21시', h: 11, slots: [0, 1, 1, 1, 0], desc: '아침 장사 포기. 몸은 덜 힘듭니다.' },
-  std:  { name: '7시~21시',  h: 14, slots: [1, 1, 1, 1, 0], desc: '출근길 김밥 손님까지 받는 표준 영업.' },
-  long: { name: '7시~24시',  h: 17, slots: [1, 1, 1, 1, 1], desc: '야간 손님까지. 체력과 전기·가스비가 많이 듭니다.' }
+  late: { name: '10시~21시', h: 11, slots: [0, 1, 1, 1, 0], desc: '아침 장사 없음' },
+  std:  { name: '7시~21시',  h: 14, slots: [1, 1, 1, 1, 0], desc: '아침 손님 포함' },
+  long: { name: '7시~24시',  h: 17, slots: [1, 1, 1, 1, 1], desc: '야간 포함. 체력·공과금 부담' }
 };
 const INTERIOR = {
-  basic:   { name: '최소 인테리어', perPy: 70 * MAN,  amb: .93,  clean: 0,  desc: '셀프 페인트와 중고 간판. 허름해 보입니다.' },
-  std:     { name: '표준 인테리어', perPy: 150 * MAN, amb: 1.0,  clean: 5,  desc: '깔끔한 동네 분식집 수준.' },
-  premium: { name: '고급 인테리어', perPy: 250 * MAN, amb: 1.07, clean: 10, desc: '카페 같은 분위기. 매장 손님이 조금 늘어납니다.' }
+  basic:   { name: '최소 인테리어', perPy: 70 * MAN,  amb: .93,  clean: 0,  desc: '허름해 보임' },
+  std:     { name: '표준 인테리어', perPy: 150 * MAN, amb: 1.0,  clean: 5,  desc: '무난함' },
+  premium: { name: '고급 인테리어', perPy: 250 * MAN, amb: 1.07, clean: 10, desc: '매장 손님 소폭 증가' }
 };
 const EQUIP = {
-  used:    { name: '중고 주방설비', cost: 700 * MAN,  eff: .90,  breakRate: 2.2, desc: '싸지만 조리가 느리고 자주 고장 납니다.' },
-  std:     { name: '표준 주방설비', cost: 1400 * MAN, eff: 1.0,  breakRate: 1.0, desc: '신품 냉장고·밥솥·작업대.' },
-  premium: { name: '고급 주방설비', cost: 2300 * MAN, eff: 1.12, breakRate: .6,  desc: '대용량 설비로 조리가 12% 빨라집니다.' }
+  used:    { name: '중고 주방설비', cost: 700 * MAN,  eff: .90,  breakRate: 2.2, desc: '조리 느림, 고장 잦음' },
+  std:     { name: '표준 주방설비', cost: 1400 * MAN, eff: 1.0,  breakRate: 1.0, desc: '신품' },
+  premium: { name: '고급 주방설비', cost: 2300 * MAN, eff: 1.12, breakRate: .6,  desc: '조리 12% 빠름' }
 };
 const GRADE = {
-  low:     { name: '저가 재료',     cost: .86, taste: .87, desc: '원가 -14%. 맛이 눈에 띄게 떨어지고 위생 사고 위험이 커집니다.' },
-  std:     { name: '표준 재료',     cost: 1.0, taste: 1.0, desc: '무난한 품질.' },
-  premium: { name: '프리미엄 재료', cost: 1.2, taste: 1.11, desc: '원가 +20%. 맛이 좋아져 단골과 평판이 늘어납니다.' }
+  low:     { name: '저가 재료',     cost: .86, taste: .87, desc: '맛 저하, 위생 사고 위험' },
+  std:     { name: '표준 재료',     cost: 1.0, taste: 1.0, desc: '무난함' },
+  premium: { name: '프리미엄 재료', cost: 1.2, taste: 1.11, desc: '맛·평판 상승' }
 };
 const PREP = {
-  tight:    { name: '빠듯하게', k: .93, desc: '폐기는 적지만 자주 품절됩니다.' },
-  normal:   { name: '보통',     k: 1.07, desc: '적당히 남고 가끔 품절.' },
-  generous: { name: '넉넉하게', k: 1.22, desc: '품절은 거의 없지만 많이 버립니다.' }
+  tight:    { name: '빠듯하게', k: .93, desc: '폐기 적음, 품절 잦음' },
+  normal:   { name: '보통',     k: 1.07, desc: '중간' },
+  generous: { name: '넉넉하게', k: 1.22, desc: '품절 드묾, 폐기 많음' }
 };
 const LOANS = {
-  policy: { name: '소상공인 정책자금', max: 5000 * MAN, rate: .039, setupOnly: true, desc: '창업할 때만 신청 가능. 금리가 가장 낮습니다.' },
-  bank:   { name: '은행 사업자대출',   max: 7000 * MAN, rate: .067, desc: '무난한 금리. 변동금리입니다.' },
-  second: { name: '저축은행·카드론',   max: 5000 * MAN, rate: .149, desc: '급할 때 쓰는 고금리 대출.' },
-  family: { name: '가족에게 빌린 돈',  max: 2000 * MAN, rate: 0, desc: '부모님 노후자금. 이자는 없지만 반드시 갚아야 합니다.' }
+  policy: { name: '소상공인 정책자금', max: 5000 * MAN, rate: .039, setupOnly: true, desc: '창업할 때만 신청 가능' },
+  bank:   { name: '은행 사업자대출',   max: 7000 * MAN, rate: .067, desc: '변동금리' },
+  second: { name: '저축은행·카드론',   max: 5000 * MAN, rate: .149, desc: '고금리' },
+  family: { name: '가족에게 빌린 돈',  max: 2000 * MAN, rate: 0, desc: '부모님 노후자금' }
 };
 const COMP = {
   franchise: { name: '프랜차이즈 김밥집',   str: 1.3,  f: [1, 1, 1, 1.1] },
@@ -762,40 +762,40 @@ const CAT_KO = { gimbap: '김밥류', snack: '분식류', meal: '식사류' };
 const LOCS = [
   { id: 'station1', no: 1, name: '행복역 1번 출구 앞', x: 452, y: 268, size: 10, deposit: 5000, rent: 340, mgmt: 25, premium: 6000,
     pop: { office: 240, student: 110, resident: 150, transit: 780 }, vis: 1.25, comps: ['franchise', 'franchise', 'cvs', 'fastfood', 'bunsik'], newComp: 1.7,
-    desc: '출퇴근 인파가 쏟아지는 A급 자리. 월세와 권리금이 가장 비싸고 경쟁도 가장 치열합니다.' },
+    desc: '출퇴근 인파가 가장 많고, 가장 비싸고, 경쟁도 가장 심합니다.' },
   { id: 'station2', no: 2, name: '행복역 뒷골목', x: 528, y: 348, size: 12, deposit: 3000, rent: 210, mgmt: 15, premium: 3500,
     pop: { office: 200, student: 80, resident: 150, transit: 380 }, vis: .85, comps: ['bunsik', 'cvs', 'franchise'], newComp: 1.1,
-    desc: '역에서 한 블록 들어간 이면도로. 임대료는 절반이지만 눈에 잘 띄지 않습니다.' },
+    desc: '역 뒤 이면도로. 싸지만 눈에 잘 띄지 않습니다.' },
   { id: 'office1', no: 3, name: '오피스타운 대로변', x: 648, y: 268, size: 13, deposit: 4000, rent: 300, mgmt: 30, premium: 5500,
     pop: { office: 820, student: 15, resident: 50, transit: 150 }, vis: 1.15, comps: ['franchise', 'cafeteria', 'cvs', 'bunsik'], newComp: 1.4,
-    desc: '점심시간에 직장인이 줄을 서는 자리. 주말에는 거리가 텅 빕니다.' },
+    desc: '점심에 직장인이 몰리고 주말에는 텅 빕니다.' },
   { id: 'office2', no: 4, name: '오피스 빌딩 뒷골목', x: 742, y: 168, size: 15, deposit: 2500, rent: 190, mgmt: 15, premium: 2500,
     pop: { office: 560, student: 5, resident: 50, transit: 40 }, vis: .75, comps: ['cafeteria', 'bunsik', 'cvs'], newComp: .9,
-    desc: '아는 직장인만 찾아오는 골목. 넓고 싸지만 점심 한 끼 장사입니다.' },
+    desc: '넓고 싸지만 점심 한 끼 장사입니다.' },
   { id: 'apt1', no: 5, name: '아파트 정문 상가', x: 300, y: 348, size: 12, deposit: 3000, rent: 250, mgmt: 20, premium: 4400,
     pop: { office: 40, student: 130, resident: 500, transit: 60 }, vis: 1.0, comps: ['bunsik', 'cvs', 'franchise'], newComp: 1.0,
-    desc: '3,000세대 대단지 정문. 저녁과 주말 포장 손님이 많고 배달 수요도 큽니다.' },
+    desc: '대단지 정문. 저녁·주말 포장과 배달 수요가 큽니다.' },
   { id: 'apt2', no: 6, name: '단지 내 상가 2층', x: 196, y: 478, size: 14, deposit: 1500, rent: 110, mgmt: 15, premium: 800,
     pop: { office: 10, student: 70, resident: 318, transit: 10 }, vis: .6, comps: ['cvs'], newComp: .6,
-    desc: '임대료가 싸고 경쟁이 없지만 2층이라 손님이 올라오지 않습니다.' },
+    desc: '싸고 경쟁이 없지만 2층이라 손님이 적습니다.' },
   { id: 'school', no: 7, name: '중·고등학교 앞', x: 196, y: 248, size: 10, deposit: 2000, rent: 150, mgmt: 10, premium: 3000,
     pop: { office: 20, student: 600, resident: 110, transit: 40 }, vis: 1.0, comps: ['bunsik', 'bunsik', 'cvs'], newComp: 1.0,
-    desc: '하교 시간에 학생들이 몰려옵니다. 학생은 가격에 민감하고, 방학 넉 달은 매출이 반 토막 납니다.' },
+    desc: '학생은 가격에 민감하고, 방학 넉 달은 매출이 반 토막 납니다.' },
   { id: 'academy', no: 8, name: '학원가 1층', x: 356, y: 196, size: 11, deposit: 3000, rent: 240, mgmt: 15, premium: 4000,
     pop: { office: 40, student: 620, resident: 140, transit: 80 }, vis: 1.0, comps: ['bunsik', 'cheap', 'cvs', 'fastfood'], newComp: 1.3, vac: .35,
-    desc: '학원 가기 전 끼니를 때우는 학생들. 방학에도 특강 덕에 덜 빠지지만 저가 경쟁이 심합니다.' },
+    desc: '방학에도 손님이 덜 빠지지만 저가 경쟁이 심합니다.' },
   { id: 'univ', no: 9, name: '대학교 정문 앞', x: 806, y: 372, size: 14, deposit: 3500, rent: 230, mgmt: 15, premium: 4500,
     pop: { office: 60, student: 980, resident: 60, transit: 120 }, vis: 1.1, comps: ['franchise', 'cheap', 'bunsik', 'fastfood', 'cvs'], newComp: 1.5, univ: true,
-    desc: '학기 중에는 북적이지만 방학이 1년에 넉 달 반. 가게가 자주 바뀌는 상권입니다.' },
+    desc: '학기 중에는 북적이지만 방학이 1년에 넉 달 반입니다.' },
   { id: 'hospital', no: 10, name: '종합병원 앞', x: 606, y: 432, size: 12, deposit: 3000, rent: 230, mgmt: 15, premium: 4500,
     pop: { office: 260, student: 10, resident: 80, transit: 350 }, vis: 1.0, comps: ['cvs', 'bunsik'], newComp: 1.0, weekend: { office: .6, transit: .9 },
-    desc: '병원 직원과 보호자가 평일·주말 가리지 않고 찾습니다. 포장 손님이 많습니다.' },
+    desc: '평일·주말 가리지 않고 손님이 있고 포장이 많습니다.' },
   { id: 'market', no: 11, name: '전통시장 입구', x: 652, y: 528, size: 9, deposit: 1000, rent: 90, mgmt: 5, premium: 1500,
     pop: { office: 30, student: 40, resident: 320, transit: 150 }, vis: .9, comps: ['bunsik', 'cheap', 'bunsik'], newComp: .7, priceSens: .35,
-    desc: '가장 싼 자리. 손님들이 100원 차이에도 발길을 돌립니다. 가게가 아주 좁습니다.' },
+    desc: '가장 싸고 좁습니다. 손님이 가격에 아주 민감합니다.' },
   { id: 'newtown', no: 12, name: '신도시 신축 상가', x: 902, y: 118, size: 18, deposit: 2000, rent: 130, mgmt: 25, premium: 0,
     pop: { office: 60, student: 60, resident: 170, transit: 30 }, vis: .9, comps: [], newComp: 1.8, growth: true, rentFree: 3,
-    desc: '권리금 없음, 석 달 월세 면제. 입주가 진행 중이라 상권이 클 수도, 유령 상가가 될 수도 있습니다.' }
+    desc: '권리금 없음, 석 달 월세 면제. 상권이 클지는 알 수 없습니다.' }
 ];
 LOCS.forEach(l => { l.deposit *= MAN; l.rent *= MAN; l.mgmt *= MAN; l.premium *= MAN; });
 const LOC_BY = {}; LOCS.forEach(l => LOC_BY[l.id] = l);
@@ -4799,8 +4799,8 @@ UI.leaderboardHTML = function (opts) {
 
 /* ───────── 타이틀 ───────── */
 const STEPS = [
+  ['가게 준비', '상가, 인테리어, 메뉴, 직원을 정합니다.'],
   ['자금 마련', '내 돈 5,000만원에 대출을 더합니다.'],
-  ['상가 계약과 가게 준비', '상가, 인테리어, 장비, 메뉴, 직원을 정합니다.'],
   ['60개월 영업', '가격과 운영을 조절하고 사건에 대응합니다.'],
   ['정산과 리더보드', '최종 순수익이 리더보드에 오릅니다.']
 ];
@@ -5120,7 +5120,8 @@ UI.views.title.mount = function (root) {
 const UI = window.UI, E = UI.E, MAN = E.MAN;
 const esc = UI.esc, won = UI.won;
 
-const STEPS = ['자금', '입지', '가게', '메뉴', '직원·운영', '최종 확인'];
+const STEPS = ['입지', '가게', '메뉴', '직원·운영', '자금', '최종 확인'];
+const FUND = 4;   // 자금 단계의 번호
 const LAST = STEPS.length - 1;
 const SEGS = E.SEGS;
 const MENU_ADD_FIXED = 7 * MAN;   // 메뉴 하나당 월 고정비(엔진 estimate 와 같은 값)
@@ -5134,8 +5135,9 @@ function receipt(G) {
   const rows = c.items.map(it => `<div class="r"><span>${esc(it.label)}${it.note ? `<span class="note">${esc(it.note)}</span>` : ''}</span>${num(won(it.amount))}</div>`).join('');
   let warn = '';
   if (!G.loc) warn = '';
+  else if (UI.state.step < FUND) warn = '';
   else if (c.cashAfter < 0) warn = `<div class="hint bad">자금이 ${num(won(-c.cashAfter))} 모자랍니다.</div>`;
-  else if (c.cashAfter < 1000 * MAN) warn = `<div class="hint warn">운영자금이 1,000만원 미만입니다. 첫 몇 달은 적자가 보통이라 버티기 어렵습니다.</div>`;
+  else if (c.cashAfter < 1000 * MAN) warn = `<div class="hint warn">운영자금이 1,000만원 미만입니다.</div>`;
   return `<div class="receipt su-receipt" id="su-receipt">
     <h3>창업 자금 계획</h3>
     <div class="r"><span>내 돈</span>${num(won(c.seed))}</div>
@@ -5186,13 +5188,13 @@ function loanRow(G, k) {
 function stepFund(G) {
   const c = E.setupCost(G);
   return `<div class="stack">
-    ${head('자금 계획', '5년 원리금균등 상환이라 장사가 안돼도 매달 나갑니다.')}
+    ${head('자금 계획')}
     ${['policy', 'bank', 'second'].map(k => loanRow(G, k)).join('')}
     <div class="card">
       <div class="spread"><span>대출 합계</span><b class="num" id="su-loan-total">${won(c.loan)}</b></div>
       <div class="spread"><span>월 상환액 합계</span><b class="num" id="su-loan-totpay">${won(c.loanPay)}</b></div>
     </div>
-    <div class="hint">정책자금은 창업할 때만 받을 수 있습니다.</div>
+    
   </div>`;
 }
 
@@ -5307,7 +5309,7 @@ function locDetail(G, L) {
     ${chosen
       ? `<button class="btn block" disabled>계약함</button>`
       : `<button class="btn primary block" data-act="suChoose" data-arg="${L.id}" id="su-choose">이 상가로 계약</button>`}
-    <div class="tiny muted">개업 전까지 다른 상가로 바꿀 수 있습니다.</div>
+    
   </div>`;
 }
 
@@ -5381,7 +5383,7 @@ function stepShop(G) {
             <span class="val" id="su-tables-val">${G.tables}세트</span>
             <button data-act="suTables" data-arg="1" aria-label="테이블 늘리기" ${G.tables >= max ? 'disabled' : ''}>+</button></div>
             <span class="sub small">최대 ${max}세트 · 한 세트 ${won(E.TABLE_COST)}</span></div>
-          <p class="sub small">테이블이 적으면 주방이 넓어지고, 없으면 매장 손님을 놓칩니다.</p>
+          <p class="sub small">테이블을 줄이면 주방이 넓어집니다.</p>
         </div>${floorPlan(G)}</div>`
         : `<p class="sub">입지를 먼저 고르세요.</p>`}
     </div>
@@ -5441,7 +5443,7 @@ function stepMenu(G) {
   return `<div class="stack">
     ${head('메뉴 정하기')}
     <div class="stack tight"><h3>재료 등급</h3><div class="opts">${grades}</div></div>
-    <div class="hint">메뉴가 늘면 비용과 조리 시간도 늘어납니다. 시세보다 비싸면 마진은 늘고 손님은 줄어듭니다.</div>
+    
     <div class="row small muted">좋아하는 손님: ${segLegend()}</div>
     ${cats}
     ${summary}
@@ -5462,26 +5464,26 @@ function staffCard(w, hired) {
 }
 function stepStaff(G) {
   const est = G.loc ? E.estimate(G) : null;
-  const role = [['kitchen', '주방에서 김밥을 만다', '조리에 집중합니다. 홀은 직원이 맡아야 합니다.'], ['hall', '홀에서 손님을 받는다', '응대에 집중합니다. 조리는 직원이 맡아야 합니다.']]
+  const role = [['kitchen', '주방에서 김밥을 만다', '홀 직원이 필요합니다.'], ['hall', '홀에서 손님을 받는다', '주방 직원이 필요합니다.']]
     .map(r => `<button class="opt ${G.ops.ownerRole === r[0] ? 'sel' : ''}" data-act="suRole" data-arg="${r[0]}" aria-pressed="${G.ops.ownerRole === r[0]}"><span class="t">${r[1]}</span><span class="d">${r[2]}</span></button>`).join('');
   const hours = Object.keys(E.HOURS).map(k => `<button class="opt ${G.ops.hours === k ? 'sel' : ''}" data-act="suHours" data-arg="${k}" aria-pressed="${G.ops.hours === k}"><span class="t">${esc(E.HOURS[k].name)}</span><span class="d">${esc(E.HOURS[k].desc)}</span></button>`).join('');
   return `<div class="stack">
     ${head('직원과 운영')}
     <div class="stack tight"><h3>사장님의 역할</h3><div class="opts">${role}</div>
-      <p class="sub small">직원이 없으면 효율이 크게 떨어집니다.</p></div>
+      </div>
     <div class="stack tight"><h3>영업시간</h3><div class="opts">${hours}</div></div>
     <div class="card stack tight"><label class="switch"><input type="checkbox" id="su-dayoff" data-change="suDayOff" ${G.ops.dayOff ? 'checked' : ''}> 일요일 휴무</label>
-      <div class="sub small">매출은 줄고 체력은 덜 닳습니다.</div></div>
+      </div>
     <div class="stack tight"><h3>채용한 직원 <span class="muted small">${G.staff.length}명</span></h3>
       ${G.staff.length ? `<div class="su-cards">${G.staff.map(w => staffCard(w, true)).join('')}</div>` : '<div class="card flat sub small">채용한 직원이 없습니다.</div>'}</div>
     <div class="stack tight"><h3>지원자 <span class="muted small">${G.candidates.length}명</span></h3>
       ${G.candidates.length ? `<div class="su-cards">${G.candidates.map(w => staffCard(w, false)).join('')}</div>` : '<div class="card flat sub small">남은 지원자가 없습니다.</div>'}</div>
-    <div class="hint">면접 인상은 틀릴 수 있고, 직원은 예고 없이 그만두기도 합니다.</div>
+    
     <div class="card flat"><h3>운영 요약</h3>${est ? `<div class="stack tight">
       <div class="spread"><span>월 인건비</span><b class="num">${won(est.labor)}</b></div>
       <div class="spread"><span>점심 피크 처리 능력</span><b class="num">약 ${UI.int(est.lunchCap)}명</b></div>
       <div class="spread"><span>점심 좌석 수용</span><b class="num">약 ${UI.int(est.seatCap)}명</b></div>
-      <div class="tiny muted">처리 능력은 주방·홀 중 느린 쪽 기준입니다.</div></div>` : '<p class="sub small">입지를 먼저 고르세요.</p>'}</div>
+      </div>` : '<p class="sub small">입지를 먼저 고르세요.</p>'}</div>
   </div>`;
 }
 
@@ -5517,7 +5519,7 @@ function stepFinal(G) {
       <div class="r"><span>공과금 기본료</span>${num(won(est.util))}</div>
       <div class="r sum"><span>월 고정비</span>${num(won(est.fixed))}</div>
       <div class="r"><span>가게 손익분기 월매출</span><b class="num">${won(est.bepShop)}</b></div>
-      <div class="tiny muted">재료비·수수료·세금을 뺀 뒤 고정비를 메우는 매출</div>
+      
       <hr>
       <div class="r"><span>대출 상환 (월)</span>${num(won(est.loanPay))}</div>
       <div class="r"><span>생활비 (월)</span>${num(won(est.living))}</div>
@@ -5528,7 +5530,7 @@ function stepFinal(G) {
   }
   let block = '';
   if (!G.loc) block = '<div class="hint bad">입지를 고르지 않아 개업할 수 없습니다.</div>';
-  else if (c.cashAfter < 0) block = `<div class="hint bad">자금이 ${num(won(-c.cashAfter))} 모자라 개업할 수 없습니다. 대출을 늘리거나 비용을 줄이세요.</div>`;
+  else if (c.cashAfter < 0) block = `<div class="hint bad">자금이 ${num(won(-c.cashAfter))} 모자라 개업할 수 없습니다.</div>`;
   return `<div class="stack">
     ${head('최종 확인', '개업하면 되돌릴 수 없습니다.')}
     ${reality}
@@ -5543,7 +5545,7 @@ UI.views.setup = {
   render() {
     const G = UI.G, st = UI.state;
     st.step = clampStep(st.step);
-    const body = [stepFund, stepLoc, stepShop, stepMenu, stepStaff, stepFinal][st.step](G);
+    const body = [stepLoc, stepShop, stepMenu, stepStaff, stepFund, stepFinal][st.step](G);
     return `<div class="wrap su-wrap">
       <header class="su-head"><span class="brand"><i></i>장사의 신</span><h1 class="su-title">창업 준비</h1>${stepper(G)}</header>
       <div class="grid-side">
@@ -5574,7 +5576,7 @@ UI.views.setup = {
 /* ───────── 행동 ───────── */
 function goStep(n) {
   n = clampStep(n);
-  if (n >= 2 && !UI.G.loc) { UI.toast('먼저 입지(상가)를 정해야 다음으로 갈 수 있습니다.', 'bad'); UI.state.step = 1; return; }
+  if (n >= 1 && !UI.G.loc) { UI.toast('먼저 상가를 골라야 합니다.', 'bad'); UI.state.step = 0; return; }
   UI.state.step = n;
 }
 UI.actions.suGo = arg => { goStep(+arg); };
@@ -5623,7 +5625,7 @@ UI.actions.suUnhire = id => { E.unhire(UI.G, id); };
 
 UI.actions.suOpen = () => {
   const G = UI.G;
-  if (!G.loc) { UI.toast('입지를 먼저 고르세요.', 'bad'); UI.state.step = 1; return; }
+  if (!G.loc) { UI.toast('먼저 상가를 골라야 합니다.', 'bad'); UI.state.step = 0; return; }
   const c = E.setupCost(G);
   if (c.cashAfter < 0) {
     UI.toast('자금이 부족합니다. 대출을 늘리거나 비용을 줄이세요.', 'bad');
@@ -5721,11 +5723,7 @@ function topStrip(G) {
 function openingCard(G) {
   const L = E.LOC_BY[G.loc.id];
   return `<section class="card rn-open"><h3>개업 준비 완료</h3>
-    <div class="rn-kvs">${kv('자리', esc(L.name))}${kv('월세·관리비', won(G.loc.rent + G.loc.mgmt))}${kv('직원', G.staff.length + '명')}${kv('통장 잔액', won(G.cash))}</div>
-    <ul class="rn-tips">
-      <li>첫 달은 '오픈 효과'로 손님이 많다가 줄어듭니다.</li>
-      <li>매달 통장에서 생활비 ${won(E.TUNE.living)}과 대출 상환액이 나갑니다.</li>
-    </ul></section>`;
+    <div class="rn-kvs">${kv('자리', esc(L.name))}${kv('월세·관리비', won(G.loc.rent + G.loc.mgmt))}${kv('직원', G.staff.length + '명')}${kv('통장 잔액', won(G.cash))}</div></section>`;
 }
 
 /* 가게 내부 그림(ui-scene.js)에 넘길 값 */
@@ -5749,10 +5747,11 @@ function sceneParams(G) {
     mask: !!G.pan, interior: G.interior, sign: G.name + ' 김밥', dayLabel: R && d > 0 ? E.calOf(R.m) + '월 ' + dayName(d) : ''
   };
 }
-function sceneCard() { return '<section class="card rn-scene-card"><canvas id="rn-scene" class="rn-scene" role="img" aria-label="가게 내부 모습"></canvas></section>'; }
+const sceneBtn = () => `<button type="button" class="btn sm ghost" id="rn-scene-btn" data-act="rnScene" aria-pressed="${!!UI.state.rnScene}">${UI.state.rnScene ? '가게 접기' : '가게 보기'}</button>`;
+function sceneCard() { if (!UI.state.rnScene) return ''; return '<section class="card rn-scene-card"><canvas id="rn-scene" class="rn-scene" role="img" aria-label="가게 내부 모습"></canvas></section>'; }
 function syncScene() {
   const S = window.Scene; if (!S || !UI.hasDOM || !UI.G) return;
-  const c = document.getElementById('rn-scene'); if (!c) return;
+  const c = document.getElementById('rn-scene'); if (!c) { if (S.detach) S.detach(); return; }   // 접혀 있으면 그리기도 멈춘다
   S.attach(c); S.set(sceneParams(UI.G));
 }
 
@@ -5775,7 +5774,7 @@ function liveCard(G) {
   const R = clock.R;
   if (!R) {
     const first = G.month === 0;
-    return `<section class="card rn-live" id="rn-live"><div class="spread"><h3>${esc(UI.calLabel(G.month + 1))} 영업 대기</h3><span class="tag warn">시간 멈춤</span></div>${first ? '<p class="small sub">아래 <b>영업 시작</b>을 누르면 하루씩 시간이 흐릅니다.</p>' : ''}</section>`;
+    return `<section class="card rn-live" id="rn-live"><div class="spread"><h3>${esc(UI.calLabel(G.month + 1))} 영업 대기</h3><span class="row tight">${sceneBtn()}<span class="tag warn">시간 멈춤</span></span></div></section>`;
   }
   const d = clock.day, days = R.days || [], mx = Math.max(1, ...days);
   let cum = 0; for (let i = 0; i < d; i++) cum += days[i] || 0;
@@ -5783,7 +5782,7 @@ function liveCard(G) {
   const est = E.estimate(G), bep = est ? est.bepAll : 0;
   const bars = days.map((v, i) => `<i class="${i < d ? 'on' : ''}${v > 0 ? '' : ' off'}${i === d - 1 ? ' now' : ''}" style="--h:${i < d && v > 0 ? Math.max(8, v / mx * 100).toFixed(0) : 6}%"></i>`).join('');
   return `<section class="card rn-live" id="rn-live">
-    <div class="spread"><h3>${esc(UI.calLabel(R.m))} ${esc(dayName(d))}</h3><span class="tag ${UI.state.rnPlay ? 'good' : 'warn'}">${UI.state.rnPlay ? '영업 중' : '시간 멈춤'}</span></div>
+    <div class="spread"><h3>${esc(UI.calLabel(R.m))} ${esc(dayName(d))}</h3><span class="row tight">${sceneBtn()}<span class="tag ${UI.state.rnPlay ? 'good' : 'warn'}">${UI.state.rnPlay ? '영업 중' : '시간 멈춤'}</span></span></div>
     <div class="rn-days" aria-hidden="true">${bars}</div>
     <div class="rn-live-n">
       <div><span class="k">오늘 매출</span><span class="v num">${d === 0 ? '-' : today > 0 ? won(today) : '쉬는 날'}</span></div>
@@ -5952,7 +5951,7 @@ function tabMenu(G) {
     <div class="card"><h3>재료 등급</h3><div class="opts">${Object.keys(E.GRADE).map(g => `<button type="button" class="opt ${G.grade === g ? 'sel' : ''}" id="rn-gr-${g}" data-act="rnGrade" data-arg="${g}"><span class="t">${E.GRADE[g].name}</span><span class="d">${E.GRADE[g].desc}</span></button>`).join('')}</div></div>
     <div class="card"><h3>현재 메뉴 ${ids.length}개</h3>
       <div class="tbl-wrap"><table class="tbl"><thead><tr><th>메뉴</th><th>판매가 (100원씩)</th><th class="r">원가율</th><th class="r">지난달</th><th>레시피</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
-      ${est ? `<p class="tiny muted" style="margin-top:8px">메뉴 1개당 월 고정비 7만원 · 주방 속도 −${pct(est.kitchenSlow)} · 레시피 연구는 월 1회</p>` : ''}</div>
+      ${est ? `<p class="tiny muted" style="margin-top:8px">메뉴 1개당 월 7만원 · 주방 속도 −${pct(est.kitchenSlow)}</p>` : ''}</div>
     <div class="card"><h3>메뉴 추가</h3>${addable || '<p class="muted small">추가할 수 있는 메뉴가 없습니다.</p>'}</div></div>`;
 }
 
@@ -5970,9 +5969,6 @@ function tabStaff(G) {
   const peak = R && R.peak != null ? R.peak : null;
   let cap = '';
   if (est) cap += `<p class="small">점심 피크 처리 능력 약 <b class="num">${int(est.lunchCap)}명</b>${peak != null ? ` · 지난달 피크 가동률 <b class="num ${peak >= .9 ? 'warn' : ''}">${pct(peak)}</b>` : ''}</p>`;
-  if (!G.staff.length) cap += `<p class="small sub">사장 혼자 주방과 홀을 다 봅니다.</p>`;
-  else if (!hasK) cap += `<p class="small sub">주방 직원이 없어 조리는 사장이 맡습니다.</p>`;
-  else if (!hasH) cap += `<p class="small sub">홀 직원이 없어 응대는 사장이 맡습니다.</p>`;
   return `<div class="stack">
     <div class="card"><h3>사장 역할</h3><div class="opts">
       <button type="button" class="opt ${G.ops.ownerRole === 'kitchen' ? 'sel' : ''}" id="rn-or-k" data-act="rnOwnerRole" data-arg="kitchen"><span class="t">주방</span><span class="d">사장이 조리를 맡습니다.</span></button>
@@ -5984,18 +5980,18 @@ function tabStaff(G) {
 
 function tabOps(G) {
   const R = G.last, est = E.estimate(G), mt = E.maxTables(G);
-  const meter = (label, v, cls, text) => `<div class="rn-meter"><div class="spread"><b class="small">${label}</b><span class="num small">${Math.round(v)} / 100</span></div>${UI.bar(v / 100, cls)}<div class="tiny muted">${text}</div></div>`;
+  const meter = (label, v, cls, text) => `<div class="rn-meter"><div class="spread"><b class="small">${label}</b><span class="num small">${Math.round(v)} / 100</span></div>${UI.bar(v / 100, cls)}${text ? `<div class="tiny muted">${text}</div>` : ''}</div>`;
   return `<div class="stack">
     <div class="card"><h3>영업 시간</h3><div class="opts">${Object.keys(E.HOURS).map(k => `<button type="button" class="opt ${G.ops.hours === k ? 'sel' : ''}" id="rn-h-${k}" data-act="rnHours" data-arg="${k}"><span class="t">${E.HOURS[k].name}</span><span class="d">${E.HOURS[k].desc}</span></button>`).join('')}</div>
-      <div style="margin-top:10px">${sw('rn-dayoff', 'rnDayOff', G.ops.dayOff, '일요일 휴무')}<div class="tiny muted">체력이 회복되지만 그날 매출은 없습니다.</div></div></div>
+      <div style="margin-top:10px">${sw('rn-dayoff', 'rnDayOff', G.ops.dayOff, '일요일 휴무')}</div></div>
     <div class="card"><h3>재료 준비량</h3><div class="opts">${Object.keys(E.PREP).map(k => `<button type="button" class="opt ${G.ops.prep === k ? 'sel' : ''}" id="rn-p-${k}" data-act="rnPrep" data-arg="${k}"><span class="t">${E.PREP[k].name}</span><span class="d">${E.PREP[k].desc}</span></button>`).join('')}</div>
       ${R ? `<p class="small sub" style="margin-top:8px">지난달 버린 재료 <b class="num">${won(R.waste)}</b> · 품절로 놓친 손님 <b class="num ${R.lost.stock > 0 ? 'warn' : ''}">${int(R.lost.stock)}명</b></p>` : ''}</div>
     <div class="card"><h3>테이블</h3><div class="row"><div class="stepper"><button type="button" id="rn-tb-m" data-act="rnTables" data-arg="-1" aria-label="테이블 줄이기">−</button><span class="val">${G.tables}세트</span><button type="button" id="rn-tb-p" data-act="rnTables" data-arg="1" aria-label="테이블 늘리기">+</button></div><span class="small muted">최대 ${mt}세트 · 1세트 추가 ${won(E.TABLE_COST)}</span></div>
       ${est ? `<p class="tiny muted" style="margin-top:6px">점심 좌석 수용 약 ${int(est.seatCap)}명</p>` : ''}</div>
     <div class="card"><h3>청소·방역</h3>${sw('rn-clean', 'rnCleaning', G.ops.cleaning, '청소·방역 업체 <b>월 18만원</b>')}<div class="tiny muted">위생 점검과 식중독 위험을 줄입니다.</div></div>
     <div class="card"><h3>사장과 가게 상태</h3><div class="stack tight">
-      ${meter('사장 체력', G.stamina, G.stamina < 40 ? 'warn' : 'good', (G.flags.collapse ? `지금까지 ${G.flags.collapse}번 쓰러졌습니다. 네 번째에는 가게를 접어야 합니다. ` : '체력이 바닥나면 쓰러져 가게를 닫습니다. ') + ((G.flags.stress || 0) >= 5 ? '집안 걱정이 체력을 갉아먹고 있습니다.' : ''))}
-      ${meter('청결도', G.clean, G.clean < 50 ? 'bad' : G.clean < 70 ? 'warn' : 'good', '청결도가 낮으면 과태료·영업정지 위험이 커집니다.')}</div></div></div>`;
+      ${meter('사장 체력', G.stamina, G.stamina < 40 ? 'warn' : 'good', (G.flags.collapse ? `지금까지 ${G.flags.collapse}번 쓰러졌습니다. 네 번째에는 가게를 접어야 합니다. ` : '') + ((G.flags.stress || 0) >= 5 ? '집안 걱정이 체력을 갉아먹고 있습니다.' : ''))}
+      ${meter('청결도', G.clean, G.clean < 50 ? 'bad' : G.clean < 70 ? 'warn' : 'good', G.clean < 50 ? '과태료·영업정지 위험이 큽니다.' : '')}</div></div></div>`;
 }
 
 function tabPromo(G) {
@@ -6004,11 +6000,11 @@ function tabPromo(G) {
   return `<div class="stack">
     <div class="card"><h3>인지도 ${pct(G.aware)}</h3>${UI.bar(G.aware, 'accent thick')}</div>
     <div class="card"><h3>홍보</h3><div class="stack tight">
-      <div>${sw('rn-flyer', 'rnFlyer', o.flyer, '전단지 <b>월 30만원</b>')}<div class="tiny muted">동네 주민과 학생에게 가게를 알립니다.</div></div>
+      <div>${sw('rn-flyer', 'rnFlyer', o.flyer, '전단지 <b>월 30만원</b>')}<div class="tiny muted">인지도가 빨리 오릅니다.</div></div>
       <div>${sw('rn-sns', 'rnSns', o.sns, 'SNS·블로그 체험단 <b>월 60만원</b>')}<div class="tiny muted">인지도가 더 빨리, 더 높이 오릅니다.</div></div></div></div>
     <div class="card"><h3>배달</h3><div class="stack tight">
-      <div>${sw('rn-del', 'rnDelivery', o.delivery, '배달앱 입점')}<div class="small sub">배달 매출의 약 <b>${fee.toFixed(0)}%</b>가 수수료·배달비·용기값으로 나갑니다.</div></div>
-      ${o.delivery ? `<div>${sw('rn-delad', 'rnDeliveryAd', o.deliveryAd, '배달앱 광고 <b>월 26만원</b>')}<div class="tiny muted">앱 상단에 노출되어 주문이 늘어납니다.</div></div>` : ''}
+      <div>${sw('rn-del', 'rnDelivery', o.delivery, '배달앱 입점')}<div class="small sub">배달 매출의 약 <b>${fee.toFixed(0)}%</b>가 수수료로 나갑니다.</div></div>
+      ${o.delivery ? `<div>${sw('rn-delad', 'rnDeliveryAd', o.deliveryAd, '배달앱 광고 <b>월 26만원</b>')}<div class="tiny muted">배달 주문이 늘어납니다.</div></div>` : ''}
       ${delOn ? `<div class="hint">지난달 배달 주문 <b>${int(R.delOrders)}건</b> · 배달 매출 <b>${won(R.revDel)}</b> · 수수료 <b>${won(R.delFees)}</b></div>` : ''}</div></div></div>`;
 }
 
@@ -6031,7 +6027,7 @@ function tabFin(G) {
       <p class="small sub" style="margin-top:8px">매달 고정 지출 <b>${won(fixedAll)}</b> · 본전 월매출 <b>${won(est.bepAll)}</b></p>` : ''}</div>
     <div class="card"><h3>갚을 돈 ${won(debt)}</h3>${G.loans.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>대출</th><th class="r">잔액</th><th class="r">금리</th><th class="r">월 상환</th><th class="r">남은 기간</th><th></th></tr></thead><tbody>${loans}</tbody></table></div>` : '<p class="muted small">갚을 대출이 없습니다.</p>'}</div>
     ${(G.subs || []).length ? `<div class="card"><h3>약정</h3>${G.subs.map(x => `<div class="rn-kv"><span>${esc(x.name)} <span class="tiny muted">${Math.max(0, x.until - G.month)}개월 남음</span></span><span class="num">월 ${won(x.amt)}</span></div>`).join('')}</div>` : ''}
-    <div class="card"><h3>돈 빌리기</h3>${borrow}<p class="tiny muted" style="margin-top:8px">통장이 바닥나면 자동으로 긴급 대출이 실행되고, 더 빌릴 곳이 없으면 파산합니다.</p></div></div>`;
+    <div class="card"><h3>돈 빌리기</h3>${borrow}</div></div>`;
 }
 
 function tabExit(G) {
@@ -6040,11 +6036,9 @@ function tabExit(G) {
   return `<div class="stack">
     <div class="card"><h3>가게 팔기</h3>
       <div class="receipt">${line('영업 권리금 <span class="note">(월 영업이익 − 250만원) × 8개월</span>', won(q.biz))}${line('자리 권리금', won(q.floor))}${line('시설', won(q.fac))}${line('합계', won(q.total), 'sum')}</div>
-      <div class="row" style="margin-top:10px"><button type="button" class="btn ${on ? '' : 'dark'}" id="rn-list" data-act="rnListing">${on ? '매물 거두기' : '가게 내놓기'}</button>${on ? '<span class="tag accent">매물로 나와 있음</span>' : ''}</div>
-      <p class="small sub" style="margin-top:8px">매수 제안이 오면 수락하거나 거절할 수 있습니다.</p></div>
+      <div class="row" style="margin-top:10px"><button type="button" class="btn ${on ? '' : 'dark'}" id="rn-list" data-act="rnListing">${on ? '매물 거두기' : '가게 내놓기'}</button>${on ? '<span class="tag accent">매물로 나와 있음</span>' : ''}</div></div>
     <div class="card"><h3>지금 폐업하면</h3>
       <div class="receipt">${liq.lines.map(l => line(esc(l.label), UI.signed(l.amount).replace('+', ''))).join('')}${line('최종 순수익', UI.signed(liq.score), 'total')}</div>
-      <p class="small sub" style="margin-top:8px">5년을 채우면 가게를 시세의 90%에 판 것으로 정산됩니다.</p>
       <div style="margin-top:10px"><button type="button" class="btn danger" id="rn-close" data-act="rnClose">폐업하기</button></div></div></div>`;
 }
 
@@ -6259,6 +6253,7 @@ A.rnPlay = () => {
 };
 A.rnSpeed = x => { UI.state.rnSpeed = SPEED_MS[+x] ? +x : 1; if (UI.state.rnPlay) kick(); };
 A.rnMonthStop = v => { UI.state.rnMonthStop = !!v; };
+A.rnScene = () => { UI.state.rnScene = !UI.state.rnScene; };
 /* 이번 달 건너뛰기: 남은 날을 한 번에 보낸다(사건 창은 그대로 뜬다) */
 A.rnNext = async () => {
   if (clock.busy) return false;
